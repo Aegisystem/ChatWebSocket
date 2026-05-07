@@ -12,17 +12,16 @@ const io = new Server(server, {
     }
 })
 
+const mensajes = []
 io.on("connection", (socket) => {
     console.log("Usuario conectado")
 
-    socket.emit("message", "Holi UwU")
+    socket.emit("message", ["Holi UwU"])
 
     socket.on("message", (msg) => {
-        // io.emit => Envía a todos incluído uno mismo
-        // socket.emit => Envía solo al socket/persona conectada
-        // socket.broadcast.emit => Envía a todos menos a sí mismo
+        mensajes.push(msg)
         socket.emit("confirmation", "Mensaje enviado")
-        socket.broadcast.emit("message", "Enviaron esto: "+ msg)
+        socket.broadcast.emit("message", mensajes)
     })
 })
 
