@@ -16,12 +16,13 @@ const mensajes = []
 io.on("connection", (socket) => {
     console.log("Usuario conectado")
 
-    socket.emit("message", ["Holi UwU"])
+    socket.emit("message", mensajes)
 
     socket.on("message", (msg) => {
         mensajes.push(msg)
         socket.emit("confirmation", "Mensaje enviado")
-        socket.broadcast.emit("message", mensajes)
+        io.emit("message", mensajes)
+
     })
 })
 
